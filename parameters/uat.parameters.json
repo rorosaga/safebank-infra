@@ -6,19 +6,19 @@
             "value": "nonprod"
         },
         "postgreSQLServerName": {
-            "value": "rorosaga-dbsrv-dev"
+            "value": "rorosaga-dbsrv-uat"
         },
         "postgreSQLDatabaseName": {
-            "value": "rorosaga-db-dev"
+            "value": "rorosaga-db-uat"
         },
         "appServicePlanName": {
-            "value": "rorosaga-asp-dev"
+            "value": "rorosaga-asp-uat"
         },
         "appServiceAPIAppName": {
-            "value": "rorosaga-be-dev"
+            "value": "rorosaga-be-uat"
         },
         "appServiceAppName": {
-            "value": "rorosaga-fe-dev"
+            "value": "rorosaga-fe-uat"
         },
         "location": {
             "value": "North Europe"
