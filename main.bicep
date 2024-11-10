@@ -71,6 +71,33 @@ param feApiLocation string = ''
 @sys.description('The folder where the build artifacts are located')
 param appArtifactLocation string = 'dist'
 
+// Container Registry
+@description('The name of the container registry')
+param registryName string
+@description('The Azure location where the container registry should be deployed')
+param registryLocation string = 'westeurope'
+@description('Zone redundancy for the container registry')
+@allowed([
+  'enabled'
+  'disabled'
+])
+param zoneRedundancy string = 'disabled'
+@description('The SKU for the container registry')
+@allowed([
+  'Basic'
+  'Standard'
+  'Premium'
+])
+param registrySku string = 'Basic'
+@description('Tags to apply to the container registry')
+param tags object = {}
+@description('Public network access for the container registry')
+@allowed([
+  'Enabled'
+  'Disabled'
+])
+param publicNetworkAccess string = 'Enabled'
+
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
   name: postgreSQLServerName
@@ -151,5 +178,17 @@ module staticWebApp 'modules/static-webapp.bicep' = {
     feAppLocation: feAppLocation
     feApiLocation: feApiLocation
     appArtifactLocation: appArtifactLocation
+  }
+}
+
+module containerRegistry 'modules/container-registry.bicep' = {
+  name: 'containerRegistry-${userAlias}'
+  params: {
+    registryName: registryName
+    registryLocation: registryLocation
+    zoneRedundancy: zoneRedundancy
+    registrySku: registrySku
+    tags: tags
+    publicNetworkAccess: publicNetworkAccess
   }
 }
