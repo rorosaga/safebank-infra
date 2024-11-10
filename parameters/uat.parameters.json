@@ -6,19 +6,19 @@
             "value": "nonprod"
         },
         "postgreSQLServerName": {
-            "value": "rorosaga-dbsrv-uat"
+            "value": "safebank-dbsrv-uat"
         },
         "postgreSQLDatabaseName": {
-            "value": "rorosaga-db-uat"
+            "value": "safebank-db-uat"
         },
         "appServicePlanName": {
-            "value": "rorosaga-asp-uat"
+            "value": "safebank-asp-uat"
         },
         "appServiceAPIAppName": {
-            "value": "rorosaga-be-uat"
+            "value": "safebank-be-uat"
         },
         "appServiceAppName": {
-            "value": "rorosaga-fe-uat"
+            "value": "safebank-fe-uat"
         },
         "location": {
             "value": "North Europe"
