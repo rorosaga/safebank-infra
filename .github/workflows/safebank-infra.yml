@@ -14,8 +14,10 @@ on:
 env:
   RESOURCE_GROUP_UAT: BCSAI2024-DEVOPS-STUDENTS-A-UAT
   RESOURCE_GROUP_DEV: BCSAI2024-DEVOPS-STUDENTS-A-DEV
+  RESOURCE_GROUP_PROD: BCSAI2024-DEVOPS-STUDENTS-A-PROD
   SUBSCRIPTION_ID_DEV: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
   SUBSCRIPTION_ID_UAT: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
+  SUBSCRIPTION_ID_PROD: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
   USER_ALIAS: rorosaga
 
 jobs:
@@ -37,7 +39,7 @@ jobs:
         path: ./main.bicep 
 
   deploy-dev:
-    if: github.ref != 'refs/heads/main' && github.event_name == 'push'  || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -96,3 +98,36 @@ jobs:
           template: ./main.bicep
           parameters: ./parameters/uat.bicepparam appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }}
           deploymentName: ${{ env.USER_ALIAS }}-uat
+
+
+  deploy-prod:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'PROD'
+
+    steps:
+
+      # Checkout code
+    - uses: actions/checkout@main
+  
+    - name: Download Bicep build artifact
+      uses: actions/download-artifact@v3
+      with:
+          name: bicep-build
+    
+      # Log into Azure
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy Bicep file
+    - name: Deploy DEV
+      uses: azure/arm-deploy@v2
+      with:
+        subscriptionId: ${{ env.SUBSCRIPTION_ID_PROD }}
+        resourceGroupName: ${{ env.RESOURCE_GROUP_PROD }}
+        template: ./main.bicep
+        parameters: ./parameters/prod.bicepparam appServiceAPIEnvVarDBPASS=${{ secrets.DBPASS }} appServiceAPIDBHostDBUSER=${{ secrets.DBUSER }}
+        deploymentName: ${{ env.USER_ALIAS }}-prod
