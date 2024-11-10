@@ -28,6 +28,9 @@
         },
         "staticWebAppLocation": {
             "value": "westeurope"
+        },
+        "registryName": {
+            "value": "safebankcruat"
         }
     }
 }

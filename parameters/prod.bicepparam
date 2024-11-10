@@ -17,3 +17,5 @@ param appServiceAPIEnvVarENV =  'prod'
 
 param staticWebAppName = 'safebank-swa-prod'
 param staticWebAppLocation = 'westeurope'
+
+param registryName = 'safebankcrprod'
