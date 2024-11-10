@@ -123,7 +123,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Deploy Bicep file
-    - name: Deploy DEV
+    - name: Deploy PROD
       uses: azure/arm-deploy@v2
       with:
         subscriptionId: ${{ env.SUBSCRIPTION_ID_PROD }}
