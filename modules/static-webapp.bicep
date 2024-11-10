@@ -6,7 +6,7 @@ param staticWebAppLocation string
 ])
 param staticWebAppSkuName string = 'Free'
 param staticWebAppSkuCode string = 'Free'
-param feRepositoryUrl string
+param feRepositoryUrl string = 'https://github.com/rorosaga/safebank-fe'
 param feBranch string = 'main'
 @secure()
 param feRepoToken string = ''

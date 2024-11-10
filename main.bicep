@@ -58,12 +58,12 @@ param staticWebAppSkuName string = 'Free'
 @sys.description('The SKU code for the pricing tier')
 param staticWebAppSkuCode string = 'Free'
 @sys.description('The URL of the repository where the source code is located')
-param feRepositoryUrl string
+param feRepositoryUrl string = 'https://github.com/rorosaga/safebank-fe'
 @sys.description('The branch of the repository to use for deployments')
 param feBranch string = 'main'
 @sys.description('A secure token for accessing the repository if it is private')
 @secure()
-param feRepoToken string
+param feRepoToken string = ''
 @sys.description('The folder containing the app code relative to the repository root')
 param feAppLocation string = '/'
 @sys.description('The folder containing the API code relative to the repository root')
