@@ -22,6 +22,12 @@
         },
         "location": {
             "value": "North Europe"
+        },
+        "staticWebAppName": {
+            "value": "safebank-swa-dev"
+        },
+        "staticWebAppLocation": {
+            "value": "westeurope"
         }
     }
 }

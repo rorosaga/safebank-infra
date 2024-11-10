@@ -22,6 +22,12 @@
         },
         "location": {
             "value": "North Europe"
+        },
+        "staticWebAppName": {
+            "value": "safebank-swa-uat"
+        },
+        "staticWebAppLocation": {
+            "value": "westeurope"
         }
     }
 }

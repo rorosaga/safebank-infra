@@ -14,3 +14,6 @@ param appServiceAPIEnvVarDBPASS =  'github-secret-replaced-in-workflow'
 param appServiceAPIEnvVarDBHOST =  'safebank-dbsrv-dev.postgres.database.azure.com'
 param appServiceAPIEnvVarDBNAME =  'safebank-db-dev'
 param appServiceAPIEnvVarENV =  'dev'
+
+param staticWebAppName = 'safebank-swa-dev'
+param staticWebAppLocation = 'westeurope'
