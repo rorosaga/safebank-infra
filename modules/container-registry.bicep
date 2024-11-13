@@ -30,3 +30,11 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-02-01-pr
   }
   tags: tags
 }
+
+output containerRegistryName string = containerRegistry.name
+#disable-next-line outputs-should-not-contain-secrets
+output containerRegistryUsername string = containerRegistry.listCredentials().username
+#disable-next-line outputs-should-not-contain-secrets
+output containerRegistryPassword0 string = containerRegistry.listCredentials().passwords[0].value
+#disable-next-line outputs-should-not-contain-secrets
+output containerRegistryPassword1 string = containerRegistry.listCredentials().passwords[1].value
