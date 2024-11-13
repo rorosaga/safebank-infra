@@ -6,14 +6,6 @@
 param environmentType string = 'nonprod'
 @sys.description('The user alias to add to the deployment name')
 param userAlias string = 'rorosaga'
-@sys.description('The PostgreSQL Server name')
-@minLength(3)
-@maxLength(24)
-param postgreSQLServerName string = 'ie-bank-db-server-dev'
-@sys.description('The PostgreSQL Database name')
-@minLength(3)
-@maxLength(24)
-param postgreSQLDatabaseName string = 'ie-bank-db'
 @sys.description('The App Service Plan name')
 @minLength(3)
 @maxLength(24)
@@ -98,49 +90,18 @@ param tags object = {}
 ])
 param publicNetworkAccess string = 'Enabled'
 
+// PostgresSQL Database
 
-resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
-  name: postgreSQLServerName
-  location: location
-  sku: {
-    name: 'Standard_B1ms'
-    tier: 'Burstable'
-  }
-  properties: {
-    administratorLogin: 'iebankdbadmin'
-    administratorLoginPassword: 'IE.Bank.DB.Admin.Pa$$'
-    createMode: 'Default'
-    highAvailability: {
-      mode: 'Disabled'
-      standbyAvailabilityZone: ''
-    }
-    storage: {
-      storageSizeGB: 32
-    }
-    backup: {
-      backupRetentionDays: 7
-      geoRedundantBackup: 'Disabled'
-    }
-    version: '15'
-  }
+@sys.description('The PostgreSQL Server name')
+@minLength(3)
+@maxLength(24)
+param postgreSQLServerName string = 'ie-bank-db-server-dev'
+@sys.description('The PostgreSQL Database name')
+@minLength(3)
+@maxLength(24)
+param postgreSQLDatabaseName string = 'ie-bank-db'
 
-  resource postgresSQLServerFirewallRules 'firewallRules@2022-12-01' = {
-    name: 'AllowAllAzureServicesAndResourcesWithinAzureIps'
-    properties: {
-      endIpAddress: '0.0.0.0'
-      startIpAddress: '0.0.0.0'
-    }
-  }
-}
-
-resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2022-12-01' = {
-  name: postgreSQLDatabaseName
-  parent: postgresSQLServer
-  properties: {
-    charset: 'UTF8'
-    collation: 'en_US.UTF8'
-  }
-}
+// Modules
 
 module appService 'modules/app-service.bicep' = {
   name: 'appService-${userAlias}'
@@ -192,3 +153,17 @@ module containerRegistry 'modules/container-registry.bicep' = {
     publicNetworkAccess: publicNetworkAccess
   }
 }
+
+module postgresSQLDatabase 'modules/postgre-sql-db.bicep' = {
+  name: 'postgreSQLDB-${userAlias}'
+  params: {
+    location: location
+    postgreSQLServerName: postgreSQLServerName
+    postgreSQLDatabaseName: postgreSQLDatabaseName
+    postgreSQLAdminLogin: 'iebankdbadmin'
+    postgreSQLAdminPassword: 'IE.Bank.DB.Admin.Pa$$'
+  }
+}
+
+output postgreSQLServerName string = postgresSQLDatabase.outputs.postgreSQLServerName
+output postgreSQLDatabaseName string = postgresSQLDatabase.outputs.postgreSQLDatabaseName
